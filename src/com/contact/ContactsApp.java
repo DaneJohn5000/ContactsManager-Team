@@ -34,7 +34,7 @@ public class ContactsApp {
             System.out.println("you chose to view the contacts"); viewContacts();
             break;
         case 2:
-            System.out.println("You chose to add a new contact"); menu();
+            System.out.println("You chose to add a new contact"); addContact();
             break;
         case 3:
             System.out.println("you chose to search");menu();
@@ -63,6 +63,13 @@ public class ContactsApp {
 
     }
     private static void addContact(){
+       String firstName = input.getString("Enter your first name: ");
+       String lastName = input.getString("Enter your last name: ");
+       String phoneNumber = input.getString("Enter your phone number: ");
+       String email = input.getString("Enter your email ");
+
+       contacts.add(new Contact(firstName,lastName,phoneNumber,email));
+
 
     }
     private static void searchContacts(){
