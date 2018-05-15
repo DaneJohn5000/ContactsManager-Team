@@ -1,11 +1,11 @@
 package com.contact;
 
 public class Contact {
-    protected String firstName;
-    protected String lastName;
-    protected String fullName;
-    protected String phoneNumber;
-    protected String email;
+    private String firstName;
+    private String lastName;
+    private String fullName;
+    private String phoneNumber;
+    private String email;
 
     public Contact(String firstName, String lastName, String phoneNumber, String email) {
         this.firstName = firstName;
@@ -56,8 +56,13 @@ public class Contact {
         this.email = email;
     }
 
-    public String toString() {
+    public String toCSV() {
         return this.firstName +","+this.lastName +","+this.phoneNumber +","+this.email;
+    }
+    @Override
+    public String toString(){
+        return this.firstName +" "+this.lastName +" "+this.phoneNumber +" "+this.email;
+
     }
 
 }
