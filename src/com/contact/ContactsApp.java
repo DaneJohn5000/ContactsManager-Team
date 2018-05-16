@@ -3,65 +3,81 @@ package com.contact;
 import com.contact.util.Input;
 
 import java.io.File;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsApp {
-//    public static ContactsManager contacts = new ContactsManager();
+    private static ContactsManager contacts = new ContactsManager();
     public static File contactsFile;
-    public static boolean exitApp = false;
+    private static boolean exitApp = false;
     private static Input input = new Input();
 
-       private static List<Contact> contacts = new ArrayList<>();
     public static void main(String[] args) {
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-        do {
-           selection( menu());
-        }
-    while(!exitApp);
 
+        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
+        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
+        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
+        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
+
+
+        // Application loop cycle
+        do {
+           selection(menu());
+        }
+        while(!exitApp);
 
     }
-
 
     private static void selection(int choice){
 
     switch(choice) {
         case 1:
-            System.out.println("you chose to view the contacts"); viewContacts();
+            System.out.println("You chose to view the contacts\n"); viewContacts();
             break;
         case 2:
-            System.out.println("You chose to add a new contact"); addContact();
+            System.out.println("You chose to add a new contact\n"); addContact();
             break;
         case 3:
-            System.out.println("you chose to search");menu();
+            System.out.println("You chose to search\n"); searchContacts();
             break;
         case 4:
-            System.out.println("you chose to delete"); menu();
+            System.out.println("you chose to delete\n"); deleteContact();
             break;
         case 5:
-            System.out.println("you chose to exit"); exit();
+            System.out.println("you chose to exit\n"); exit();
             break;
     }
 
     }
     private static int menu() {
-        System.out.println("1. View contacts.\n" +
+        System.out.println("\n\n1. View contacts.\n" +
                 "2. Add a new contact.\n" +
                 "3. Search a contact by name.\n" +
                 "4. Delete an existing contact.\n" +
-                "5. Exit.");
+                "5. Exit.\n");
         return input.getInt("Enter a number between 1 and 5: ", 1, 5);
     }
     private static void viewContacts() {
-        for (Contact contact : contacts){
-            System.out.println(contact.toString());
+        for (Integer id : contacts.getIds()){
+           printContact(id);
         }
 
     }
+
+    // pass specific contacts to view
+    private static void viewContacts(List<Integer> ids) {
+        for (Integer id  : ids){
+           printContact(id);
+        }
+    }
+
+    private static void printContact(Integer id) {
+        System.out.println(
+                String.format("%1$5s",id)  + " | " +
+                        contacts.getById(id).toString());
+    }
+
     private static void addContact(){
        String firstName = input.getString("Enter your first name: ");
        String lastName = input.getString("Enter your last name: ");
@@ -74,8 +90,22 @@ public class ContactsApp {
     }
     private static void searchContacts(){
 
+        // take some input from user
+        String search = input.getString("Please search by name:");
+
+        //return values that match input
+        List<Integer> searchList = contacts.searchIds(search);
+
+        // display, use viewContacts somehow~~
+        viewContacts(searchList);
+
     }
     private static void deleteContact(){
+
+        Integer id = input.getInt("Please input an id to delete: ");
+        contacts.remove(id);
+
+        System.out.println("Delete complete.");
 
     }
     private static void exit(){

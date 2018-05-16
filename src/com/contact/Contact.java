@@ -61,7 +61,11 @@ public class Contact {
     }
     @Override
     public String toString(){
-        return this.firstName +" "+this.lastName +" "+this.phoneNumber +" "+this.email;
+        return
+                String.format("%1$5s",this.firstName)  + " | " +
+                        String.format("%1$5s",this.lastName)  + " | " +
+                        String.format("%1$5s",this.phoneNumber)  + " | " +
+                        String.format("%1$5s",this.email)  + " |";
 
     }
 
