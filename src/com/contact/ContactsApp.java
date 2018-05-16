@@ -1,26 +1,21 @@
 package com.contact;
 
 import com.contact.util.Input;
-
-import java.io.File;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
+import com.contact.util.File;
 import java.util.List;
 
 public class ContactsApp {
     private static ContactsManager contacts = new ContactsManager();
-    public static File contactsFile;
+    public static File contactsFile = new File("data","contacts.txt");
     private static boolean exitApp = false;
     private static Input input = new Input();
 
     public static void main(String[] args) {
 
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-        contacts.add(new Contact("Arnold","Stallone","555-555-5555","arnoldStallone@gmail.com"));
-
-
+        contacts.add(contactsFile.read());
+        System.out.println("Loaded " + contacts.getTotal() + " contacts");
+        // Import existing file or create a new one
+        // load file to contacts manager
         // Application loop cycle
         do {
            selection(menu());
@@ -30,7 +25,6 @@ public class ContactsApp {
     }
 
     private static void selection(int choice){
-
     switch(choice) {
         case 1:
             System.out.println("You chose to view the contacts\n"); viewContacts();
@@ -103,12 +97,15 @@ public class ContactsApp {
     private static void deleteContact(){
 
         Integer id = input.getInt("Please input an id to delete: ");
-        contacts.remove(id);
 
-        System.out.println("Delete complete.");
+            contacts.remove(id);
+            System.out.println("If contact existed with this ID it is deleted\n");
 
     }
     private static void exit(){
         exitApp = true;
+        // SAVE file
+        contactsFile.overwrite(contacts.toCSV());
+        // CLOSE
     }
 }

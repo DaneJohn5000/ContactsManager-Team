@@ -38,9 +38,28 @@ public class ContactsManager {
 
     }
 
+    public void add(List<String> contacts) {
+        for(String contactString: contacts) {
+            String[] contact = contactString.split(",");
+            Contact newContact = new Contact(contact[0], contact[1], contact[2], contact[3]);
+            add(newContact);
+        }
+    }
+
     public static void remove(Integer id) {
         contacts.remove(id);
         total--;
+    }
+
+    public static List<Contact> getAllContacts() {
+        List<Contact> contactsList = new ArrayList<>();
+
+        for(Map.Entry<Integer, Contact> entry : contacts.entrySet()) {
+            contactsList.add(entry.getValue());
+        }
+        return contactsList;
+
+
     }
 
     public static Contact getById(Integer id) {
@@ -68,5 +87,14 @@ public class ContactsManager {
             }
         }
         return ids;
+    }
+
+
+    public List<String> toCSV() {
+       List<String> csv = new ArrayList<>();
+       for(Contact contact : getAllContacts()) {
+           csv.add(contact.toCSV());
+       }
+       return csv;
     }
 }
