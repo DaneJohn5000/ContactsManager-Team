@@ -12,6 +12,7 @@ public class Contact {
         this.lastName = lastName;
         this.fullName = firstName + " " + lastName;
         this.phoneNumber = phoneNumber;
+
         this.email = email;
 
     }
@@ -62,10 +63,11 @@ public class Contact {
     @Override
     public String toString(){
         return
-                String.format("%1$5s",this.firstName)  + " | " +
-                        String.format("%1$5s",this.lastName)  + " | " +
-                        String.format("%1$5s",this.phoneNumber)  + " | " +
-                        String.format("%1$5s",this.email)  + " |";
+                                String.format("%1$5s",this.firstName)  + " | " +
+                                String.format("%1$5s",this.lastName)  + " | " +
+                                String.format("(%s) %s-%s", phoneNumber.substring(0, 3),
+                                phoneNumber.substring(3, 6),phoneNumber.substring(6, 10))  + " | " +
+                                 String.format("%1$5s",this.email)  + " |";
 
     }
 

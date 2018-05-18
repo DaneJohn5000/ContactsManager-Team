@@ -43,6 +43,7 @@ public class ContactsApp {
             break;
     }
 
+
     }
     private static int menu() {
         System.out.println("\n\n1. View contacts.\n" +
@@ -53,6 +54,12 @@ public class ContactsApp {
         return input.getInt("Enter a number between 1 and 5: ", 1, 5);
     }
     private static void viewContacts() {
+        System.out.println(String.format("%1$5s","ID")  + " | " +
+                String.format("%1$5s","FIRST ")  + " | " +
+                String.format("%1$5s","LAST ")  + " | " +
+                String.format("%1$5s","PHONE NUMBER ")  + " | " +
+                String.format("%1$5s","EMAIL ")  + " | " );
+
         for (Integer id : contacts.getIds()){
            printContact(id);
         }
@@ -77,9 +84,19 @@ public class ContactsApp {
        String lastName = input.getString("Enter your last name: ");
        String phoneNumber = input.getString("Enter your phone number: ");
        String email = input.getString("Enter your email ");
-
-       contacts.add(new Contact(firstName,lastName,phoneNumber,email));
-
+        Integer result = contacts.findByName(firstName, lastName);
+        if(result != null){
+            boolean overwrite = input.yesNo("Contact exists. Would you like to overwrite? (yes/no)");
+            if(overwrite){
+                contacts.update(result, new Contact(firstName,lastName,phoneNumber,email) );
+                System.out.println("Contact updated");
+            } else {
+                return;
+            }
+        } else {
+            contacts.add(new Contact(firstName, lastName, phoneNumber, email));
+        }
+            contactsFile.overwrite(contacts.toCSV());
 
     }
     private static void searchContacts(){
@@ -99,12 +116,14 @@ public class ContactsApp {
         Integer id = input.getInt("Please input an id to delete: ");
 
             contacts.remove(id);
+            contactsFile.overwrite(contacts.toCSV());
             System.out.println("If contact existed with this ID it is deleted\n");
 
     }
     private static void exit(){
-        exitApp = true;
+       exitApp = true;
         // SAVE file
+
         contactsFile.overwrite(contacts.toCSV());
         // CLOSE
     }

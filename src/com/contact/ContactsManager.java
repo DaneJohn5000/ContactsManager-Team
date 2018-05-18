@@ -46,6 +46,10 @@ public class ContactsManager {
         }
     }
 
+    public void update(Integer id, Contact contact) {
+        contacts.put(id , contact);
+    }
+
     public static void remove(Integer id) {
         contacts.remove(id);
         total--;
@@ -89,6 +93,17 @@ public class ContactsManager {
         return ids;
     }
 
+   public Integer findByName(String firstName, String lastName){
+       for(Map.Entry<Integer, Contact> entry : contacts.entrySet()) {
+           Integer id = entry.getKey();
+           Contact contact = entry.getValue();
+           if(contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
+               return id;
+           }
+       }
+       return null;
+    }
+
 
     public List<String> toCSV() {
        List<String> csv = new ArrayList<>();
@@ -97,4 +112,7 @@ public class ContactsManager {
        }
        return csv;
     }
+
+
+
 }
